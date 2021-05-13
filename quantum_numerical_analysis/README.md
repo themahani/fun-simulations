@@ -11,3 +11,7 @@ Special thanks to my friend and Quantum Mechanics teacher assistant **"Alireza N
 Here we solve the 1 dimensional hydrogen atom potential. The potential in the reduced units is
 as follows: V(x) = -1 / (|x| - epsilon) where epsilon = 10 ^ -4 in the reduced units.
 `
+## Module 3
+Here I introduce the Heisenberg Hamiltonian and try extracting interesting data from it.
+The Heisenberg Hamiltonian is one of the most interesting problem in Condensed Matter Physics.
+
