@@ -41,6 +41,7 @@ class System:
         """ class module to animate the system. """
         def animate(i):
             """ animate function for the simulation """
+            print(f"\rframe {i}", end="")
             for _ in range(20):
                 self.timestep()
             line.set_data(x_particles, y_particles)
@@ -63,7 +64,7 @@ class System:
         # live preview if the animation:
         plt.show()
         # save the animation below:
-        # ani.save('animation.mp4', writer='imagemagick', fps=20, dpi=200)
+        # ani.save('animation.mp4', writer='ffmpeg', fps=20, dpi=200)
 
 def main():
     """ main body """
