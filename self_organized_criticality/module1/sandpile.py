@@ -18,19 +18,18 @@ class Sandpile(object):
 
     def _update_slope(self):
         """ update the slope for each site """
-        self._slope = self.count - np.roll(self.count, -1) # slope[i] = count[i] - count[i-1]
+        self._slope = np.roll(self.count, 1) - self.count # slope[i] = count[i+1] - count[i]
 
 
     def _relax_slope(self):
         """ relax the slope of the site if slope is greater than z_c """
         mask = self._slope > self._z_c  # find places that need relaxation
-        print(mask)
-        # now relax the slopes ~~~~~~~~~~~~~~~~~~~~~~ BUG! ~~~~~~~~~~~~~~~
-        self.count[mask] -= 1       # take from steeps site
-        self.canvas[self.count[mask], mask] = 0     # update canvas
+        # now relax the slopes
+        self.count[np.roll(mask, -1)] -= 1       # take from steep site
+        self.canvas[self.count[np.roll(mask, -1)], np.roll(mask, -1)] = 0     # update canvas
 
-        self.count[np.roll(mask, -1)] += 1  # add to left of steep site
-        self.canvas[self.count[np.roll(mask, -1)] - 1, np.roll(mask, -1)] = 1    # update canvas
+        self.canvas[self.count[mask], mask] = 1    # update canvas
+        self.count[mask] += 1  # add to left of steep site
 
 
     def timestep(self):
