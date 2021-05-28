@@ -18,24 +18,29 @@ class Sandpile(object):
 
     def _update_slope(self):
         """ update the slope for each site """
-        self._slope = np.roll(self.count, 1) - self.count # slope[i] = count[i+1] - count[i]
+        self._slope = np.roll(self.count, -1) - self.count # slope[i] = count[i+1] - count[i]
+        self._slope[-1] = -self.count[-1]      # right side is open
 
 
-    def _relax_slope(self):
+    def _relax_slope(self): # ~~~~~~~~~~~~~~ BUG! ~~~~~~~~~~~~~~~~~
         """ relax the slope of the site if slope is greater than z_c """
-        mask = self._slope > self._z_c  # find places that need relaxation
-        # now relax the slopes
-        self.count[np.roll(mask, -1)] -= 1       # take from steep site
-        self.canvas[self.count[np.roll(mask, -1)], np.roll(mask, -1)] = 0     # update canvas
-
-        self.canvas[self.count[mask], mask] = 1    # update canvas
-        self.count[mask] += 1  # add to left of steep site
+        for i in range(self.size):
+            if self._slope[i] < self._z_c and i == self.size - 1:  # if steep on the right edge
+                self.count[i] -= 1  # take one grain
+                self.canvas[self.count[i], i] = 0   # update canvas
+            elif self._slope[i] < self._z_c:
+                self.count[i] -= 1  # take one grain
+                self.canvas[self.count[i], i] = 0   # update canvas
+                self.count[i+1] += 1  # add to i+1
+                self.canvas[self.canvas[i+1] - 1, i+1] = 1   # update canvas
+            else:
+                pass    # don't do shit :)
 
 
     def timestep(self):
         """ evolve the system for 1 time step """
-        drop = np.random.randint(self.size)     # drop a random grain of sand
-        if self.count[drop] == self.height - 1:     # if the site is full:
+        drop = np.random.randint(low=0, high=self.size-1, size=1)     # drop a random grain of sand
+        if self.count[drop] > self.height - 1:     # if the site is full:
             pass        # do nothing
         else:
             self.canvas[self.count[drop], drop] = 1     # drop the grain
@@ -59,7 +64,7 @@ class Sandpile(object):
 
 def main():
     """ main body """
-    sandpile = Sandpile(20, 20, 2)
+    sandpile = Sandpile(20, 20, -1)
     sandpile.animate_system()
 
 if __name__ == "__main__":
