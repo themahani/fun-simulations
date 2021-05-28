@@ -37,8 +37,8 @@ class Sandpile(object):
 
     def timestep(self):
         """ evolve the system for 1 time step """
-        while self._relax_slope():
-            self._update_slope()
+        while self._relax_slope():  # relax all the steep sites
+            self._update_slope()    # update slopes in each step
 
         drop = np.random.randint(low=0, high=self.size, size=1)     # drop a random grain of sand
         if self.count[drop] > self.height - 1:     # if the site is full:

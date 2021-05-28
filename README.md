@@ -6,3 +6,6 @@ In this folder there are various simulations in the field of molecular dynamic o
 
 ## Quantum Numerical Analysis
 Here I discuss numerical analysis of the quantum mechanics problems mostly using matrices and `numpy`.
+
+## Self-Organized Criticality
+As the title suggests, this is where I simulate different SOC systems. Including are: Sandpile, OFC Earthquake, ...
