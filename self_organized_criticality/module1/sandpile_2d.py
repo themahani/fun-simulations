@@ -38,11 +38,6 @@ class Sandpile:
         return aval_size    # return avalanche size
 
 
-
-
-
-
-
     def timestep(self):
         """ evolve the system one timestep """
         drop_pos = np.random.randint(size=2, low=1, high=self.size+1) # pick random site
